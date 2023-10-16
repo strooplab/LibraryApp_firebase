@@ -40,8 +40,8 @@ public class RegistrationActivity extends AppCompatActivity {
         loginTV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(RegistrationActivity.this,LoginActivity.class);
-                startActivity(i);
+                Intent intent = new Intent(RegistrationActivity.this,LoginActivity.class);
+                startActivity(intent);
             }
         });
 
@@ -63,8 +63,8 @@ public class RegistrationActivity extends AppCompatActivity {
                             if(task.isSuccessful()){
                                 loadingPB.setVisibility(View.GONE);
                                 Toast.makeText(RegistrationActivity.this, "Usuario registrado", Toast.LENGTH_SHORT).show();
-                                Intent i = new Intent(RegistrationActivity.this, LoginActivity.class);
-                                startActivity(i);
+                                Intent intent = new Intent(RegistrationActivity.this, LoginActivity.class);
+                                startActivity(intent);
                                 finish();
                             }else{
                                 loadingPB.setVisibility(View.GONE);
