@@ -19,7 +19,7 @@ import com.google.firebase.database.ValueEventListener;
 
 public class AddBookActivity extends AppCompatActivity {
 
-    private TextInputEditText bookNameEdt,bookPagesEdt,bookAutorEdt,bookImgEdt;
+    private TextInputEditText bookNameEdt,bookPagesEdt,bookAutorEdt,bookDescEdt,bookImgEdt;
     private Button addBookBtn;
     private ProgressBar loadingPB;
     private FirebaseDatabase firebaseDatabase;
@@ -33,6 +33,7 @@ public class AddBookActivity extends AppCompatActivity {
         bookNameEdt = findViewById(R.id.idEdtBookName);
         bookPagesEdt = findViewById(R.id.idEdtBookPages);
         bookAutorEdt = findViewById(R.id.idEdtBookAutor);
+        bookDescEdt = findViewById(R.id.idEdtBookdesc);
         bookImgEdt = findViewById(R.id.idEdtBookImg);
         addBookBtn = findViewById(R.id.idBtnAddBook);
         loadingPB = findViewById(R.id.idPBLoading);
@@ -46,9 +47,10 @@ public class AddBookActivity extends AppCompatActivity {
                 String bookName = bookNameEdt.getText().toString();
                 String bookPages = bookPagesEdt.getText().toString();
                 String bookAutor = bookAutorEdt.getText().toString();
+                String bookDesc= bookDescEdt.getText().toString();
                 String bookImg = bookImgEdt.getText().toString();
                 bookID = bookName;
-                BookRVModal bookRVModal = new BookRVModal(bookName,bookAutor,bookPages,bookImg,bookID);
+                BookRVModal bookRVModal = new BookRVModal(bookName,bookAutor,bookPages,bookDesc,bookImg,bookID);
 
                 databaseReference.addValueEventListener(new ValueEventListener() {
                     @Override

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/green_shade_2">
+    
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/idTVBookName"
+        android:layout_margin="4dp"
+        android:padding="4dp"
+        android:text="Nuevo libro"
+        android:textColor="@color/white"
+        android:textSize="15sp"
+        android:textStyle="bold"/>
+    
+    <ImageView
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_below="@+id/idTVBookName"
+        android:id="@+id/idImageBookName"
+        android:layout_margin="4dp"
+        android:padding="4dp"
+        android:src="@mipmap/ic_launcher"
+        android:layout_centerVertical="true"/>
+    
+    <TextView
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:text="Autor"
+        android:id="@+id/idTVAutor"
+        android:textColor="@color/white"
+        android:layout_toRightOf="@+id/idImageBookName"
+        android:layout_below="@+id/idTVBookName"
+        android:padding="3dp"
+        android:layout_margin="4dp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="100"
+        android:id="@+id/idTVpaginas"
+        android:textColor="@color/white"
+        android:layout_toRightOf="@+id/idTVAutor"
+        android:layout_below="@+id/idTVBookName"
+        android:padding="3dp"
+        android:layout_margin="4dp" />
+
+
+
+
+
+
+
+</RelativeLayout>

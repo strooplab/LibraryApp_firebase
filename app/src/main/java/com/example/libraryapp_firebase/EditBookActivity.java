@@ -25,7 +25,7 @@ import java.util.Objects;
 
 public class EditBookActivity extends AppCompatActivity {
 
-    private TextInputEditText bookNameEdt,bookPagesEdt,bookAutorEdt,bookImgEdt;
+    private TextInputEditText bookNameEdt,bookPagesEdt,bookAutorEdt,bookDescEdt,bookImgEdt;
     private Button updateBookBtn, deleteBookBtn;
     private ProgressBar loadingPB;
     private FirebaseDatabase firebaseDatabase;
@@ -41,6 +41,7 @@ public class EditBookActivity extends AppCompatActivity {
         bookNameEdt = findViewById(R.id.idEdtBookName);
         bookPagesEdt = findViewById(R.id.idEdtBookPages);
         bookAutorEdt = findViewById(R.id.idEdtBookAutor);
+        bookDescEdt = findViewById(R.id.idEdtBookDescripcion);
         bookImgEdt = findViewById(R.id.idEdtBookImg);
         updateBookBtn = findViewById(R.id.idBtnUpdateBook);
         deleteBookBtn = findViewById(R.id.idBtnDeleteBook);
@@ -62,12 +63,14 @@ public class EditBookActivity extends AppCompatActivity {
                 String bookName = bookNameEdt.getText().toString();
                 String bookPages = bookPagesEdt.getText().toString();
                 String bookAutor = bookAutorEdt.getText().toString();
+                String bookDesc= bookDescEdt.getText().toString();
                 String bookImg = bookImgEdt.getText().toString();
 
                 Map<String,Object> map = new HashMap<>();
                 map.put("bookName",bookName);
                 map.put("bookPages",bookPages);
                 map.put("bookAutor",bookAutor);
+                map.put("bookDescripcion",bookDesc);
                 map.put("bookImg",bookImg);
                 map.put("bookID",bookID);
 
