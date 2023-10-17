@@ -1,13 +1,13 @@
 {
   "project_info": {
-    "project_number": "892599798237",
-    "project_id": "libraryapp-7dc9a",
-    "storage_bucket": "libraryapp-7dc9a.appspot.com"
+    "project_number": "773809100269",
+    "project_id": "fir-libraryapp-43938",
+    "storage_bucket": "fir-libraryapp-43938.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:892599798237:android:06fe71b950574fc2078e34",
+        "mobilesdk_app_id": "1:773809100269:android:fb9c9a70a822b8a58283e4",
         "android_client_info": {
           "package_name": "com.example.libraryapp_firebase"
         }
@@ -15,7 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyCDUnvom7PXCYbVIq9l9yH6-C-hIvefMtI"
+          "current_key": "AIzaSyDcDyDsLnQgr7ob3MH1BmI3hH02-zSXXqk"
         }
       ],
       "services": {
