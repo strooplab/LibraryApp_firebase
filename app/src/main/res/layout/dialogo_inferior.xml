@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/idRLBSheet"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/green_shade_2">
@@ -37,6 +38,17 @@
         android:layout_margin="4dp" />
 
     <TextView
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:text="Descripcion"
+        android:id="@+id/idTVDescripcion"
+        android:textColor="@color/white"
+        android:layout_toRightOf="@+id/idImageBookName"
+        android:layout_below="@+id/idTVAutor"
+        android:padding="3dp"
+        android:layout_margin="4dp" />
+
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="100"
@@ -47,10 +59,26 @@
         android:padding="3dp"
         android:layout_margin="4dp" />
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="2"
+        android:layout_below="@id/idImageBookName">
+
+        <Button
+            android:id="@+id/EdtBookBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_margin="4dp"
+            android:text="Editar Libro"
+            android:textAllCaps="false"
+            android:textColor="@color/white" />
 
 
 
-
+    </LinearLayout>
 
 
 </RelativeLayout>

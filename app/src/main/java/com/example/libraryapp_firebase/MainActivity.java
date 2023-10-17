@@ -7,17 +7,33 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.constraintlayout.widget.ConstraintLayout;
+
+
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.squareup.picasso.Picasso;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 
@@ -29,8 +45,9 @@ public class MainActivity extends AppCompatActivity implements BookRVAdapter.Boo
     private FirebaseDatabase firebaseDatabase;
     private DatabaseReference databaseReference;
     private ArrayList<BookRVModal> bookRVModalArrayList;
-    private RelativeLayout bottomSheetRL;
+    RelativeLayout idContenedor;
     private BookRVAdapter bookRVAdapter;
+    private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +59,10 @@ public class MainActivity extends AppCompatActivity implements BookRVAdapter.Boo
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference("Books");
         bookRVModalArrayList = new ArrayList<>();
+        LayoutInflater inflater = getLayoutInflater();
+        View dialogInteriorView = inflater.inflate(R.layout.dialogo_inferior, null);
+        idContenedor = dialogInteriorView.findViewById(R.id.idRLBSheet);
+        mAuth = FirebaseAuth.getInstance();
         bookRVAdapter = new BookRVAdapter(bookRVModalArrayList,this,this);
         bookRV.setLayoutManager(new LinearLayoutManager(this));
         bookRV.setAdapter(bookRVAdapter);
@@ -93,6 +114,62 @@ public class MainActivity extends AppCompatActivity implements BookRVAdapter.Boo
 
     @Override
     public void onBookClick(int position) {
+        displayDialogoInferior(bookRVModalArrayList.get(position));
 
     }
+
+    private void displayDialogoInferior(BookRVModal bookRVModal){
+        final BottomSheetDialog Dialogointerior = new BottomSheetDialog(this);
+        View layout = LayoutInflater.from(this).inflate(R.layout.dialogo_inferior,idContenedor);
+        Dialogointerior.setContentView(layout);
+        Dialogointerior.setCancelable(false);
+        Dialogointerior.setCanceledOnTouchOutside(true);
+        Dialogointerior.show();
+
+        TextView bookNameTV =layout.findViewById(R.id.idTVBookName);
+        TextView bookAutorTV =layout.findViewById(R.id.idTVAutor);
+        TextView bookDescTV =layout.findViewById(R.id.idTVDescripcion);
+        TextView bookpaginasTV =layout.findViewById(R.id.idTVpaginas);
+        ImageView bookImage = layout.findViewById(R.id.idImageBookName);
+        Button editBTN = layout.findViewById(R.id.EdtBookBtn);
+
+        bookNameTV.setText(bookRVModal.getBookName());
+        bookAutorTV.setText(bookRVModal.getBookAutor());
+        bookDescTV.setText(bookRVModal.getBookDesc());
+        bookpaginasTV.setText(bookRVModal.getBookPages());
+        Picasso.get().load(bookRVModal.getBookImg()).into(bookImage);
+
+        editBTN.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, EditBookActivity.class);
+                intent.putExtra("book", bookRVModal);
+                startActivity(intent);
+
+            }
+        });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu){
+        getMenuInflater().inflate(R.menu.menu_main,menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NotNull MenuItem item){
+        int id = item.getItemId();
+
+        if (id == R.id.idLogout) {
+            Toast.makeText(this, "Sesión cerrada con éxito", Toast.LENGTH_SHORT).show();
+            mAuth.signOut();
+            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+            startActivity(intent);
+            this.finish();
+            return true;
+        } else {
+            return super.onOptionsItemSelected(item);
+        }
+    }
+
 }
