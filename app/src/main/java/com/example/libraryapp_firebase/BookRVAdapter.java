@@ -41,8 +41,8 @@ public class BookRVAdapter extends RecyclerView.Adapter<BookRVAdapter.ViewHolder
     public void onBindViewHolder(@NonNull BookRVAdapter.ViewHolder holder, @SuppressLint("RecyclerView") int position) {
         BookRVModal bookRVModal = bookRVModalArrayList.get(position);
         holder.bookNameTV.setText(bookRVModal.getBookName());
-        holder.bookPageTV.setText("Rs. " + bookRVModal.getBookPages());
-        Picasso.get().load(bookRVModal.getBookID()).into(holder.bookIV);
+        holder.bookPageTV.setText(bookRVModal.getBookPages());
+        Picasso.get().load(bookRVModal.getBookImg()).into(holder.bookIV);
         setAnimation(holder.itemView, position);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override

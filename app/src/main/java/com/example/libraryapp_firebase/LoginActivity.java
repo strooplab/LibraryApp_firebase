@@ -38,40 +38,34 @@ public class LoginActivity extends AppCompatActivity {
         registerTV = findViewById(R.id.idTVRegister);
         mAuth = FirebaseAuth.getInstance();
 
-        registerTV.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(LoginActivity.this, RegistrationActivity.class);
-                startActivity(i);
-            }
+        registerTV.setOnClickListener(view -> {
+            Intent intent = new Intent(LoginActivity.this, RegistrationActivity.class);
+            startActivity(intent);
         });
 
-        loginBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                loadingPB.setVisibility(View.VISIBLE);
-                String userName = userNameEdt.getText().toString();
-                String pwd = pwdEdt.getText().toString();
-                if(TextUtils.isEmpty(userName) && TextUtils.isEmpty(pwd)){
-                    Toast.makeText(LoginActivity.this, "Porfavor ingresar las credenciales", Toast.LENGTH_SHORT).show();
-                return;
-                }else{
-                    mAuth.signInWithEmailAndPassword(userName,pwd).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-                            if(task.isSuccessful()){
-                                loadingPB.setVisibility(View.GONE);
-                                Toast.makeText(LoginActivity.this, "Inicio de sesion exitoso", Toast.LENGTH_SHORT).show();
-                                Intent i = new Intent(LoginActivity.this, MainActivity.class);
-                                startActivity(i);
-                                finish();
-                            }else{
-                                loadingPB.setVisibility(View.GONE);
-                                Toast.makeText(LoginActivity.this, "Error al iniciar sesion", Toast.LENGTH_SHORT).show();
-                            }
+        loginBtn.setOnClickListener(view -> {
+            loadingPB.setVisibility(View.VISIBLE);
+            String userName = userNameEdt.getText().toString();
+            String pwd = pwdEdt.getText().toString();
+            if(TextUtils.isEmpty(userName) && TextUtils.isEmpty(pwd)){
+                Toast.makeText(LoginActivity.this, "Porfavor ingresar las credenciales", Toast.LENGTH_SHORT).show();
+            return;
+            }else{
+                mAuth.signInWithEmailAndPassword(userName,pwd).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if(task.isSuccessful()){
+                            loadingPB.setVisibility(View.GONE);
+                            Toast.makeText(LoginActivity.this, "Inicio de sesion exitoso", Toast.LENGTH_SHORT).show();
+                            Intent i = new Intent(LoginActivity.this, MainActivity.class);
+                            startActivity(i);
+                            finish();
+                        }else{
+                            loadingPB.setVisibility(View.GONE);
+                            Toast.makeText(LoginActivity.this, "Error al iniciar sesion", Toast.LENGTH_SHORT).show();
                         }
-                    });
-                }
+                    }
+                });
             }
         });
     }
@@ -81,8 +75,8 @@ public class LoginActivity extends AppCompatActivity {
         super.onStart();
         FirebaseUser user = mAuth.getCurrentUser();
         if(user!=null){
-            Intent i = new Intent(LoginActivity.this, MainActivity.class);
-            startActivity(i);
+            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+            startActivity(intent);
             this.finish();
         }
     }

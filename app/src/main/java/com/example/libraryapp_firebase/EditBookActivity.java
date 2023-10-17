@@ -63,30 +63,28 @@ public class EditBookActivity extends AppCompatActivity {
                 String bookName = bookNameEdt.getText().toString();
                 String bookPages = bookPagesEdt.getText().toString();
                 String bookAutor = bookAutorEdt.getText().toString();
-                String bookDesc= bookDescEdt.getText().toString();
+                String bookDescripcion= bookDescEdt.getText().toString();
                 String bookImg = bookImgEdt.getText().toString();
 
                 Map<String,Object> map = new HashMap<>();
                 map.put("bookName",bookName);
                 map.put("bookPages",bookPages);
                 map.put("bookAutor",bookAutor);
-                map.put("bookDescripcion",bookDesc);
+                map.put("bookDesc",bookDescripcion);
                 map.put("bookImg",bookImg);
                 map.put("bookID",bookID);
 
 
-                databaseReference.addValueEventListener(new ValueEventListener() {
+                databaseReference.updateChildren(map, new DatabaseReference.CompletionListener() {
                     @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    public void onComplete(DatabaseError error, DatabaseReference ref) {
                         loadingPB.setVisibility(View.GONE);
-                        databaseReference.updateChildren(map);
-                        Toast.makeText(EditBookActivity.this, "Libro Actualizado", Toast.LENGTH_SHORT).show();
-                        startActivity(new Intent(EditBookActivity.this, MainActivity.class));
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-                        Toast.makeText(EditBookActivity.this, "Error al actualizar libro", Toast.LENGTH_SHORT).show();
+                        if (error == null) {
+                            Toast.makeText(EditBookActivity.this, "Libro Actualizado", Toast.LENGTH_SHORT).show();
+                            startActivity(new Intent(EditBookActivity.this, MainActivity.class));
+                        } else {
+                            Toast.makeText(EditBookActivity.this, "Error al actualizar libro", Toast.LENGTH_SHORT).show();
+                        }
                     }
                 });
 

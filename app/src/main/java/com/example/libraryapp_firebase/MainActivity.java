@@ -120,7 +120,7 @@ public class MainActivity extends AppCompatActivity implements BookRVAdapter.Boo
 
     private void displayDialogoInferior(BookRVModal bookRVModal){
         final BottomSheetDialog Dialogointerior = new BottomSheetDialog(this);
-        View layout = LayoutInflater.from(this).inflate(R.layout.dialogo_inferior,idContenedor);
+        View layout = LayoutInflater.from(this).inflate(R.layout.dialogo_inferior,null);
         Dialogointerior.setContentView(layout);
         Dialogointerior.setCancelable(false);
         Dialogointerior.setCanceledOnTouchOutside(true);
@@ -159,7 +159,6 @@ public class MainActivity extends AppCompatActivity implements BookRVAdapter.Boo
     @Override
     public boolean onOptionsItemSelected(@NotNull MenuItem item){
         int id = item.getItemId();
-
         if (id == R.id.idLogout) {
             Toast.makeText(this, "Sesión cerrada con éxito", Toast.LENGTH_SHORT).show();
             mAuth.signOut();
@@ -167,9 +166,11 @@ public class MainActivity extends AppCompatActivity implements BookRVAdapter.Boo
             startActivity(intent);
             this.finish();
             return true;
-        } else {
-            return super.onOptionsItemSelected(item);
         }
+
+            return super.onOptionsItemSelected(item);
+
+
     }
 
 }
