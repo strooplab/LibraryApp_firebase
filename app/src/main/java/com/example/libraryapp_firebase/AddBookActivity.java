@@ -5,6 +5,7 @@
 
     import android.content.Intent;
     import android.os.Bundle;
+    import android.text.TextUtils;
     import android.view.View;
     import android.widget.Button;
     import android.widget.ProgressBar;
@@ -69,26 +70,31 @@
                     String bookURL = bookURLEdt.getText().toString();
                     String bookDesc = bookDescEdt.getText().toString();
                     String bookImg = bookImgEdt.getText().toString();
-                    bookID = bookName;
+                    if (TextUtils.isEmpty(bookURL)) {
+                        Toast.makeText(AddBookActivity.this, "Sin enlace de libro", Toast.LENGTH_SHORT).show();
+                    } else if (TextUtils.isEmpty(bookImg)){
+                        Toast.makeText(AddBookActivity.this, "Sin enlace de imagen", Toast.LENGTH_SHORT).show();
+                    }else{
+                        bookID = bookName;
+                        BookRVModal bookRVModal = new BookRVModal(bookName, bookAutor, bookPages, bookDesc, bookURL ,bookImg, bookID, uid);
 
-                    BookRVModal bookRVModal = new BookRVModal(bookName, bookAutor, bookPages, bookDesc, bookURL, bookImg, bookID, uid);
-                    DatabaseReference userBooksRef = firebaseDatabase.getReference("Users").child(uid).child("Books");
-                    userBooksRef.child(bookID).setValue(bookRVModal)
-                            .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                @Override
-                                public void onComplete(@NonNull Task<Void> task) {
-                                    loadingPB.setVisibility(View.GONE);
-                                    if (task.isSuccessful()) {
-                                        // El libro se agregó correctamente
-                                        Toast.makeText(AddBookActivity.this, "Libro Añadido", Toast.LENGTH_SHORT).show();
-                                        startActivity(new Intent(AddBookActivity.this, MainActivity.class));
-                                    } else {
-                                        // Hubo un error al agregar el libro
-                                        Toast.makeText(AddBookActivity.this, "Error al agregar el libro", Toast.LENGTH_SHORT).show();
+                        databaseReference.child(bookID).setValue(bookRVModal)
+                                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+                                        loadingPB.setVisibility(View.GONE);
+                                        if (task.isSuccessful()) {
+                                            // El libro se agregó correctamente
+                                            Toast.makeText(AddBookActivity.this, "Libro Añadido", Toast.LENGTH_SHORT).show();
+                                            startActivity(new Intent(AddBookActivity.this, MainActivity.class));
+                                        } else {
+                                            // Hubo un error al agregar el libro
+                                            Toast.makeText(AddBookActivity.this, "Error al agregar el libro", Toast.LENGTH_SHORT).show();
+                                        }
                                     }
-                                }
-                            });
+                                });
                 }
-            });
-        }
+            }
+        });
     }
+}

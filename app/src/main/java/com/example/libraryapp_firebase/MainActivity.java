@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -147,7 +148,11 @@ public class MainActivity extends AppCompatActivity implements BookRVAdapter.Boo
         bookAutorTV.setText(bookRVModal.getBookAutor());
         bookDescTV.setText(bookRVModal.getBookDesc());
         bookpaginasTV.setText(bookRVModal.getBookPages());
-        Picasso.get().load(bookRVModal.getBookImg()).into(bookImage);
+        if (!TextUtils.isEmpty(bookRVModal.getBookImg())) {
+            Picasso.get().load(bookRVModal.getBookImg()).into(bookImage);
+        } else {
+            bookImage.setImageResource(R.drawable.ic_launcher_foreground);
+        }
 
         editBTN.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -164,7 +169,11 @@ public class MainActivity extends AppCompatActivity implements BookRVAdapter.Boo
             public void onClick(View v) {
                 Intent intent = new Intent(Intent.ACTION_VIEW);
                 intent.setData(Uri.parse(bookRVModal.getBookURL()));
-                startActivity(intent);
+                if(intent!=null){
+                    startActivity(intent);
+                }else{
+                    Toast.makeText(MainActivity.this, "Link inválido", Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }
