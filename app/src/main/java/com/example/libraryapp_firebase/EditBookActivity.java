@@ -27,7 +27,7 @@ import java.util.Objects;
 
 public class EditBookActivity extends AppCompatActivity {
 
-    private TextInputEditText bookNameEdt,bookPagesEdt,bookAutorEdt,bookDescEdt,bookImgEdt;
+    private TextInputEditText bookNameEdt,bookPagesEdt,bookAutorEdt,bookDescEdt,bookImgEdt,bookURLEdt;
     private Button updateBookBtn, deleteBookBtn;
     private ProgressBar loadingPB;
     private FirebaseDatabase firebaseDatabase;
@@ -49,6 +49,7 @@ public class EditBookActivity extends AppCompatActivity {
         bookPagesEdt = findViewById(R.id.idEdtBookPages);
         bookAutorEdt = findViewById(R.id.idEdtBookAutor);
         bookDescEdt = findViewById(R.id.idEdtBookDescripcion);
+        bookURLEdt = findViewById(R.id.idEdtBookURL);
         bookImgEdt = findViewById(R.id.idEdtBookImg);
         updateBookBtn = findViewById(R.id.idBtnUpdateBook);
         deleteBookBtn = findViewById(R.id.idBtnDeleteBook);
@@ -58,6 +59,8 @@ public class EditBookActivity extends AppCompatActivity {
             bookNameEdt.setText(bookRVModal.getBookName());
             bookPagesEdt.setText(bookRVModal.getBookPages());
             bookAutorEdt.setText(bookRVModal.getBookAutor());
+            bookDescEdt.setText(bookRVModal.getBookDesc());
+            bookURLEdt.setText(bookRVModal.getBookURL());
             bookImgEdt.setText(bookRVModal.getBookImg());
             bookID = bookRVModal.getBookID();
         }
@@ -72,6 +75,7 @@ public class EditBookActivity extends AppCompatActivity {
                 String bookPages = bookPagesEdt.getText().toString();
                 String bookAutor = bookAutorEdt.getText().toString();
                 String bookDescripcion= bookDescEdt.getText().toString();
+                String bookURL = bookURLEdt.getText().toString();
                 String bookImg = bookImgEdt.getText().toString();
 
                 Map<String,Object> map = new HashMap<>();
@@ -79,6 +83,7 @@ public class EditBookActivity extends AppCompatActivity {
                 map.put("bookPages",bookPages);
                 map.put("bookAutor",bookAutor);
                 map.put("bookDesc",bookDescripcion);
+                map.put("bookURL",bookURL);
                 map.put("bookImg",bookImg);
                 map.put("bookID",bookID);
                 map.put("propietario", uid);

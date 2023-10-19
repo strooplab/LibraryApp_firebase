@@ -15,27 +15,33 @@
         android:textColor="@color/white"
         android:textSize="15sp"
         android:textStyle="bold"/>
-    
+
     <ImageView
+        android:id="@+id/idImageBookName"
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_below="@+id/idTVBookName"
-        android:id="@+id/idImageBookName"
-        android:layout_margin="4dp"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="4dp"
+        android:layout_marginBottom="4dp"
         android:padding="4dp"
-        android:src="@mipmap/ic_launcher"
-        android:layout_centerVertical="true"/>
-    
+        android:src="@mipmap/ic_launcher" />
+
     <TextView
-        android:layout_width="250dp"
-        android:layout_height="wrap_content"
-        android:text="Autor"
         android:id="@+id/idTVAutor"
-        android:textColor="@color/white"
-        android:layout_toRightOf="@+id/idImageBookName"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
         android:layout_below="@+id/idTVBookName"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="4dp"
+        android:layout_marginBottom="4dp"
+        android:layout_toRightOf="@+id/idImageBookName"
         android:padding="3dp"
-        android:layout_margin="4dp" />
+        android:text="Autor"
+        android:textColor="@color/white" />
 
     <TextView
         android:layout_width="250dp"
@@ -49,15 +55,19 @@
         android:layout_margin="4dp" />
 
     <TextView
+        android:id="@+id/idTVpaginas"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="100"
-        android:id="@+id/idTVpaginas"
-        android:textColor="@color/white"
-        android:layout_toRightOf="@+id/idTVAutor"
         android:layout_below="@+id/idTVBookName"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="4dp"
+        android:layout_marginBottom="4dp"
+        android:textAlignment="textEnd"
+        android:layout_toRightOf="@+id/idTVAutor"
         android:padding="3dp"
-        android:layout_margin="4dp" />
+        android:text="100"
+        android:textColor="@color/white" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -69,10 +79,19 @@
         <Button
             android:id="@+id/EdtBookBtn"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:layout_margin="4dp"
             android:text="Editar Libro"
+            android:textAllCaps="false"
+            android:textColor="@color/white" />
+        <Button
+            android:id="@+id/URLBookBtn"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_margin="4dp"
+            android:text="Ver"
             android:textAllCaps="false"
             android:textColor="@color/white" />
 

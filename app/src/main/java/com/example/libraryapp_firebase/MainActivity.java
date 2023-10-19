@@ -35,6 +35,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.squareup.picasso.Picasso;
 
 import org.jetbrains.annotations.NotNull;
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
@@ -140,6 +141,7 @@ public class MainActivity extends AppCompatActivity implements BookRVAdapter.Boo
         TextView bookpaginasTV =layout.findViewById(R.id.idTVpaginas);
         ImageView bookImage = layout.findViewById(R.id.idImageBookName);
         Button editBTN = layout.findViewById(R.id.EdtBookBtn);
+        Button URLBtn= layout.findViewById(R.id.URLBookBtn);
 
         bookNameTV.setText(bookRVModal.getBookName());
         bookAutorTV.setText(bookRVModal.getBookAutor());
@@ -154,6 +156,15 @@ public class MainActivity extends AppCompatActivity implements BookRVAdapter.Boo
                 intent.putExtra("book", bookRVModal);
                 startActivity(intent);
 
+            }
+        });
+
+        URLBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.setData(Uri.parse(bookRVModal.getBookURL()));
+                startActivity(intent);
             }
         });
     }

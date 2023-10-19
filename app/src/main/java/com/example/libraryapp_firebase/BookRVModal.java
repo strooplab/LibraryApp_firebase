@@ -8,6 +8,7 @@ public class BookRVModal implements Parcelable {
     private String bookAutor;
     private String bookPages;
     private String bookDesc;
+    private String bookURL;
     private String bookImg;
     private String bookID;
     private String uid;
@@ -21,6 +22,7 @@ public class BookRVModal implements Parcelable {
         bookAutor = in.readString();
         bookPages = in.readString();
         bookDesc = in.readString();
+        bookURL = in.readString();
         bookImg = in.readString();
         bookID = in.readString();
     }
@@ -63,11 +65,18 @@ public class BookRVModal implements Parcelable {
 
     public String getBookDesc(){
         return bookDesc;
-
     }
 
     public void setBookDesc(String bookDesc){
         this.bookDesc = bookDesc;
+    }
+
+    public String getBookURL(){
+        return bookURL;
+    }
+
+    public void setBookURL(String bookURL){
+        this.bookURL = bookURL;
     }
 
     public String getBookImg() {
@@ -86,11 +95,12 @@ public class BookRVModal implements Parcelable {
         this.bookID = bookID;
     }
 
-    public BookRVModal(String bookName, String bookAutor, String bookPages, String bookDesc, String bookImg, String bookID, String uid) {
+    public BookRVModal(String bookName, String bookAutor, String bookPages, String bookDesc,String bookURL, String bookImg, String bookID, String uid) {
         this.bookName = bookName;
         this.bookAutor = bookAutor;
         this.bookPages = bookPages;
         this.bookDesc=bookDesc;
+        this.bookURL=bookURL;
         this.bookImg = bookImg;
         this.bookID = bookID;
         this.uid = uid;
@@ -107,6 +117,7 @@ public class BookRVModal implements Parcelable {
         dest.writeString(bookAutor);
         dest.writeString(bookPages);
         dest.writeString(bookDesc);
+        dest.writeString(bookURL);
         dest.writeString(bookImg);
         dest.writeString(bookID);
     }

@@ -23,7 +23,7 @@
 
     public class AddBookActivity extends AppCompatActivity {
 
-        private TextInputEditText bookNameEdt, bookPagesEdt, bookAutorEdt, bookDescEdt, bookImgEdt;
+        private TextInputEditText bookNameEdt, bookPagesEdt, bookAutorEdt, bookDescEdt,bookURLEdt,bookImgEdt;
         private Button addBookBtn;
         private ProgressBar loadingPB;
         private FirebaseDatabase firebaseDatabase;
@@ -38,6 +38,7 @@
             bookPagesEdt = findViewById(R.id.idEdtBookPages);
             bookAutorEdt = findViewById(R.id.idEdtBookAutor);
             bookDescEdt = findViewById(R.id.idEdtBookdesc);
+            bookURLEdt = findViewById(R.id.idEdtBookURL);
             bookImgEdt = findViewById(R.id.idEdtBookImg);
             addBookBtn = findViewById(R.id.idBtnAddBook);
             loadingPB = findViewById(R.id.idPBLoading);
@@ -51,13 +52,10 @@
                 userBooksRef.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        // Aquí debes actualizar la interfaz con los datos recibidos en dataSnapshot
-                        // Por ejemplo, puedes iterar a través de los libros y mostrarlos en una lista.
                     }
 
                     @Override
                     public void onCancelled(@NonNull DatabaseError databaseError) {
-                        // Manejo de errores relacionados con la base de datos
                     }
                 });
             }
@@ -68,11 +66,12 @@
                     String bookName = bookNameEdt.getText().toString();
                     String bookPages = bookPagesEdt.getText().toString();
                     String bookAutor = bookAutorEdt.getText().toString();
+                    String bookURL = bookURLEdt.getText().toString();
                     String bookDesc = bookDescEdt.getText().toString();
                     String bookImg = bookImgEdt.getText().toString();
                     bookID = bookName;
 
-                    BookRVModal bookRVModal = new BookRVModal(bookName, bookAutor, bookPages, bookDesc, bookImg, bookID, uid);
+                    BookRVModal bookRVModal = new BookRVModal(bookName, bookAutor, bookPages, bookDesc, bookURL, bookImg, bookID, uid);
                     DatabaseReference userBooksRef = firebaseDatabase.getReference("Users").child(uid).child("Books");
                     userBooksRef.child(bookID).setValue(bookRVModal)
                             .addOnCompleteListener(new OnCompleteListener<Void>() {
