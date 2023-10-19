@@ -9,6 +9,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -42,7 +43,13 @@ public class BookRVAdapter extends RecyclerView.Adapter<BookRVAdapter.ViewHolder
         BookRVModal bookRVModal = bookRVModalArrayList.get(position);
         holder.bookNameTV.setText(bookRVModal.getBookName());
         holder.bookPageTV.setText(bookRVModal.getBookPages());
-        Picasso.get().load(bookRVModal.getBookImg()).into(holder.bookIV);
+        String imageUrl = bookRVModal.getBookImg();
+        if (imageUrl != null && !imageUrl.isEmpty()) {
+            Picasso.get().load(imageUrl).into(holder.bookIV);
+        } else {
+            Toast.makeText(context, "URL invalida", Toast.LENGTH_SHORT).show();
+        }
+
         setAnimation(holder.itemView, position);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -11,6 +11,8 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -32,11 +34,16 @@ public class EditBookActivity extends AppCompatActivity {
     private DatabaseReference databaseReference;
     private String bookID;
     private BookRVModal bookRVModal;
+    private String uid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_book);
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null) {
+            uid = user.getUid();
+        }
         firebaseDatabase = FirebaseDatabase.getInstance();
         bookNameEdt = findViewById(R.id.idEdtBookName);
         bookPagesEdt = findViewById(R.id.idEdtBookPages);
@@ -55,7 +62,8 @@ public class EditBookActivity extends AppCompatActivity {
             bookID = bookRVModal.getBookID();
         }
 
-        databaseReference = firebaseDatabase.getReference("Books").child(bookID);
+        databaseReference = firebaseDatabase.getReference("Users").child(uid).child("Books").child(bookID);
+
         updateBookBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -73,6 +81,7 @@ public class EditBookActivity extends AppCompatActivity {
                 map.put("bookDesc",bookDescripcion);
                 map.put("bookImg",bookImg);
                 map.put("bookID",bookID);
+                map.put("propietario", uid);
 
 
                 databaseReference.updateChildren(map, new DatabaseReference.CompletionListener() {

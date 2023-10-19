@@ -3,8 +3,6 @@ package com.example.libraryapp_firebase;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import androidx.annotation.NonNull;
-
 public class BookRVModal implements Parcelable {
     private String bookName;
     private String bookAutor;
@@ -12,6 +10,7 @@ public class BookRVModal implements Parcelable {
     private String bookDesc;
     private String bookImg;
     private String bookID;
+    private String uid;
 
     public BookRVModal(){
 
@@ -87,13 +86,14 @@ public class BookRVModal implements Parcelable {
         this.bookID = bookID;
     }
 
-    public BookRVModal(String bookName, String bookAutor, String bookPages, String bookDesc, String bookImg, String bookID) {
+    public BookRVModal(String bookName, String bookAutor, String bookPages, String bookDesc, String bookImg, String bookID, String uid) {
         this.bookName = bookName;
         this.bookAutor = bookAutor;
         this.bookPages = bookPages;
         this.bookDesc=bookDesc;
         this.bookImg = bookImg;
         this.bookID = bookID;
+        this.uid = uid;
     }
 
     @Override

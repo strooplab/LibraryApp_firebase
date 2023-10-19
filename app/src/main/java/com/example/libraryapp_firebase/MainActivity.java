@@ -26,6 +26,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -48,6 +49,7 @@ public class MainActivity extends AppCompatActivity implements BookRVAdapter.Boo
     RelativeLayout idContenedor;
     private BookRVAdapter bookRVAdapter;
     private FirebaseAuth mAuth;
+    private String uid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +59,13 @@ public class MainActivity extends AppCompatActivity implements BookRVAdapter.Boo
         loadingPB = findViewById(R.id.idPBLoading);
         addFAB = findViewById(R.id.idAddFAB);
         firebaseDatabase = FirebaseDatabase.getInstance();
-        databaseReference = firebaseDatabase.getReference("Books");
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null) {
+            uid = user.getUid();
+            databaseReference = firebaseDatabase.getReference("Users").child(uid).child("Books");
+        } else {
+            Toast.makeText(this, "El usuario no ha iniciado sesion", Toast.LENGTH_SHORT).show();
+        }
         bookRVModalArrayList = new ArrayList<>();
         LayoutInflater inflater = getLayoutInflater();
         View dialogInteriorView = inflater.inflate(R.layout.dialogo_inferior, null);

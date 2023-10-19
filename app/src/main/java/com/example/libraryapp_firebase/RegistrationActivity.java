@@ -17,6 +17,8 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class RegistrationActivity extends AppCompatActivity {
 
@@ -25,6 +27,7 @@ public class RegistrationActivity extends AppCompatActivity {
     private ProgressBar loadingPB;
     private TextView loginTV;
     private FirebaseAuth mAuth;
+    private FirebaseDatabase DB;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +40,7 @@ public class RegistrationActivity extends AppCompatActivity {
         loadingPB = findViewById(R.id.idPBLoading);
         loginTV = findViewById(R.id.idTVLogin);
         mAuth = FirebaseAuth.getInstance();
+        DB  = FirebaseDatabase.getInstance();
         loginTV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -60,16 +64,25 @@ public class RegistrationActivity extends AppCompatActivity {
                     mAuth.createUserWithEmailAndPassword(userName,pwd).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
-                            if(task.isSuccessful()){
+                            if (task.isSuccessful()) {
                                 loadingPB.setVisibility(View.GONE);
                                 Toast.makeText(RegistrationActivity.this, "Usuario registrado", Toast.LENGTH_SHORT).show();
-                                Intent intent = new Intent(RegistrationActivity.this, LoginActivity.class);
-                                startActivity(intent);
-                                finish();
-                            }else{
+                                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                                if (user != null) {
+                                    String uid = user.getUid();
+                                    DB.getReference("Users").child(uid).setValue(true);
+                                    Intent intent = new Intent(RegistrationActivity.this, LoginActivity.class);
+                                    startActivity(intent);
+                                    finish();
+                                } else {
+                                    loadingPB.setVisibility(View.GONE);
+                                    Toast.makeText(RegistrationActivity.this, "Error al registrar usuario", Toast.LENGTH_SHORT).show();
+                                }
+                            } else {
                                 loadingPB.setVisibility(View.GONE);
                                 Toast.makeText(RegistrationActivity.this, "Error al registrar usuario", Toast.LENGTH_SHORT).show();
                             }
+
                         }
                     });
                 }
