@@ -48,6 +48,7 @@ public class LoginActivity extends AppCompatActivity {
             String userName = userNameEdt.getText().toString();
             String pwd = pwdEdt.getText().toString();
             if(TextUtils.isEmpty(userName) && TextUtils.isEmpty(pwd)){
+                loadingPB.setVisibility(View.GONE);
                 Toast.makeText(LoginActivity.this, "Porfavor ingresar las credenciales", Toast.LENGTH_SHORT).show();
             return;
             }else{

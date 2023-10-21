@@ -59,6 +59,7 @@ public class MainActivity extends AppCompatActivity implements BookRVAdapter.Boo
         setContentView(R.layout.activity_main);
         bookRV = findViewById(R.id.idRVBooks);
         loadingPB = findViewById(R.id.idPBLoading);
+        loadingPB.setVisibility(View.GONE);
         addFAB = findViewById(R.id.idAddFAB);
         firebaseDatabase = FirebaseDatabase.getInstance();
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();

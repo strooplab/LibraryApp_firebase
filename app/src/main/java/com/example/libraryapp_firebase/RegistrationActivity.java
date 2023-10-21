@@ -25,7 +25,7 @@ public class RegistrationActivity extends AppCompatActivity {
     private TextInputEditText userNameEdt,pwdEdt,cnfPwdEdt;
     private Button registerBtn;
     private ProgressBar loadingPB;
-    private TextView loginTV;
+    private TextView loginTV,contraTV;
     private FirebaseAuth mAuth;
     private FirebaseDatabase DB;
 
@@ -39,6 +39,7 @@ public class RegistrationActivity extends AppCompatActivity {
         registerBtn = findViewById(R.id.idBtnRegister);
         loadingPB = findViewById(R.id.idPBLoading);
         loginTV = findViewById(R.id.idTVLogin);
+        contraTV = findViewById(R.id.idTVcontra);
         mAuth = FirebaseAuth.getInstance();
         DB  = FirebaseDatabase.getInstance();
         loginTV.setOnClickListener(new View.OnClickListener() {
@@ -57,8 +58,10 @@ public class RegistrationActivity extends AppCompatActivity {
                 String pwd = pwdEdt.getText().toString();
                 String cnfPwd = cnfPwdEdt.getText().toString();
                 if(!pwd.equals(cnfPwd)){
+                    loadingPB.setVisibility(View.GONE);
                     Toast.makeText(RegistrationActivity.this, "Porfavor revisar ambas contraseñas", Toast.LENGTH_SHORT).show();
                 }else if(TextUtils.isEmpty(userName) && TextUtils.isEmpty(pwd) && TextUtils.isEmpty(cnfPwd)){
+                    loadingPB.setVisibility(View.GONE);
                     Toast.makeText(RegistrationActivity.this, "Porfavor añadir las credenciales...", Toast.LENGTH_SHORT).show();
                 }else{
                     mAuth.createUserWithEmailAndPassword(userName,pwd).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
@@ -76,10 +79,12 @@ public class RegistrationActivity extends AppCompatActivity {
                                     finish();
                                 } else {
                                     loadingPB.setVisibility(View.GONE);
+                                    contraTV.setVisibility(View.VISIBLE);
                                     Toast.makeText(RegistrationActivity.this, "Error al registrar usuario", Toast.LENGTH_SHORT).show();
                                 }
                             } else {
                                 loadingPB.setVisibility(View.GONE);
+                                contraTV.setVisibility(View.VISIBLE);
                                 Toast.makeText(RegistrationActivity.this, "Error al registrar usuario", Toast.LENGTH_SHORT).show();
                             }
 
