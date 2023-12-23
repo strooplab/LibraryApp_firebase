@@ -70,9 +70,7 @@
                     String bookURL = bookURLEdt.getText().toString();
                     String bookDesc = bookDescEdt.getText().toString();
                     String bookImg = bookImgEdt.getText().toString();
-                    if (TextUtils.isEmpty(bookURL)) {
-                        Toast.makeText(AddBookActivity.this, "Sin enlace de libro", Toast.LENGTH_SHORT).show();
-                    } else if (TextUtils.isEmpty(bookImg)){
+                    if (TextUtils.isEmpty(bookImg)){
                         Toast.makeText(AddBookActivity.this, "Sin enlace de imagen", Toast.LENGTH_SHORT).show();
                     }else{
                         bookID = bookName;

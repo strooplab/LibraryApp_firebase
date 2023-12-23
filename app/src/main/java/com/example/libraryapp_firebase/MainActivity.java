@@ -6,10 +6,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -21,8 +23,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.constraintlayout.widget.ConstraintLayout;
-
 
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -33,16 +33,20 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
 import com.squareup.picasso.Picasso;
 
 import org.jetbrains.annotations.NotNull;
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements BookRVAdapter.BookClickInterface {
 
+    private static final String TAG = "ADD_PDF_TAG";
+    private static final int PDF_PICK_CODE= 1000;
+
     private RecyclerView bookRV;
+    private ProgressDialog PD;
     private ProgressBar loadingPB;
     private FloatingActionButton addFAB;
     private FirebaseDatabase firebaseDatabase;
@@ -50,6 +54,7 @@ public class MainActivity extends AppCompatActivity implements BookRVAdapter.Boo
     private ArrayList<BookRVModal> bookRVModalArrayList;
     RelativeLayout idContenedor;
     private BookRVAdapter bookRVAdapter;
+    private FirebaseStorage fStorage;
     private FirebaseAuth mAuth;
     private String uid;
 
@@ -62,6 +67,7 @@ public class MainActivity extends AppCompatActivity implements BookRVAdapter.Boo
         loadingPB.setVisibility(View.GONE);
         addFAB = findViewById(R.id.idAddFAB);
         firebaseDatabase = FirebaseDatabase.getInstance();
+        fStorage = FirebaseStorage.getInstance();
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null) {
             uid = user.getUid();
@@ -74,6 +80,11 @@ public class MainActivity extends AppCompatActivity implements BookRVAdapter.Boo
         View dialogInteriorView = inflater.inflate(R.layout.dialogo_inferior, null);
         idContenedor = dialogInteriorView.findViewById(R.id.idRLBSheet);
         mAuth = FirebaseAuth.getInstance();
+
+        PD = new ProgressDialog(this);
+        PD.setTitle("Espere");
+        PD.setCanceledOnTouchOutside(false);
+
         bookRVAdapter = new BookRVAdapter(bookRVModalArrayList,this,this);
         bookRV.setLayoutManager(new LinearLayoutManager(this));
         bookRV.setAdapter(bookRVAdapter);
@@ -144,6 +155,7 @@ public class MainActivity extends AppCompatActivity implements BookRVAdapter.Boo
         ImageView bookImage = layout.findViewById(R.id.idImageBookName);
         Button editBTN = layout.findViewById(R.id.EdtBookBtn);
         Button URLBtn= layout.findViewById(R.id.URLBookBtn);
+        Button OfflineBTN= layout.findViewById(R.id.OffBook);
 
         bookNameTV.setText(bookRVModal.getBookName());
         bookAutorTV.setText(bookRVModal.getBookAutor());
@@ -169,15 +181,62 @@ public class MainActivity extends AppCompatActivity implements BookRVAdapter.Boo
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(Intent.ACTION_VIEW);
-                intent.setData(Uri.parse(bookRVModal.getBookURL()));
                 if(intent!=null){
+                    intent.setData(Uri.parse(bookRVModal.getBookURL()));
                     startActivity(intent);
                 }else{
-                    Toast.makeText(MainActivity.this, "Link inválido", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, "No Hay ningún link, carga un pdf en su lugar", Toast.LENGTH_SHORT).show();
                 }
             }
         });
+
+        OfflineBTN.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                pdfPickIntent();
+            }
+        });
     }
+
+    private void pdfPickIntent() {
+        Log.d(TAG, "pdfPickIntent: starting pdf pick intent");
+
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        intent.setType("application/pdf");
+        startActivityForResult(Intent.createChooser(intent, "Select Pdf"), PDF_PICK_CODE);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode == RESULT_OK) {
+            if (requestCode == PDF_PICK_CODE) {
+                Log.d(TAG, "onActivityResult: PDF Picked");
+
+                Uri pdfUri = data.getData(); // Obtiene la URI del archivo PDF seleccionado
+
+                if (pdfUri != null) {
+                    Toast.makeText(this, "Pdf Cargado", Toast.LENGTH_SHORT).show();
+
+                    openPdfViewerActivity(pdfUri);
+                } else {
+                    Toast.makeText(this, "Por favor, seleccione un archivo PDF válido", Toast.LENGTH_SHORT).show();
+                }
+            }
+        } else {
+            Log.d(TAG, "onActivityResult: cancelled picking pdf");
+            Toast.makeText(this, "PDF inválido", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void openPdfViewerActivity(Uri pdfUri) {
+        Intent intent = new Intent(this, pdfActivity.class);
+        intent.putExtra("pdfFilePath", pdfUri.toString()); // Pasa la URI del PDF como cadena
+        startActivity(intent);
+    }
+
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
