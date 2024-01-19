@@ -2,6 +2,7 @@ package com.example.libraryapp_firebase;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.text.TextUtils;
 
 public class BookRVModal implements Parcelable {
     private String bookName;
@@ -76,7 +77,7 @@ public class BookRVModal implements Parcelable {
     }
 
     public void setBookURL(String bookURL){
-        this.bookURL = bookURL;
+        this.bookURL = TextUtils.isEmpty(bookURL) ? null : bookURL;
     }
 
     public String getBookImg() {
@@ -84,7 +85,7 @@ public class BookRVModal implements Parcelable {
     }
 
     public void setBookImg(String bookImg) {
-        this.bookImg = bookImg;
+        this.bookImg = TextUtils.isEmpty(bookImg) ? null : bookImg;
     }
 
     public String getBookID() {

@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -40,6 +41,7 @@ public class RegistrationActivity extends AppCompatActivity {
         loadingPB = findViewById(R.id.idPBLoading);
         loginTV = findViewById(R.id.idTVLogin);
         contraTV = findViewById(R.id.idTVcontra);
+        FirebaseApp.initializeApp(this);
         mAuth = FirebaseAuth.getInstance();
         DB  = FirebaseDatabase.getInstance();
         loginTV.setOnClickListener(new View.OnClickListener() {

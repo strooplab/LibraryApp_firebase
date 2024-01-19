@@ -48,6 +48,7 @@ public class BookRVAdapter extends RecyclerView.Adapter<BookRVAdapter.ViewHolder
             Picasso.get().load(imageUrl).into(holder.bookIV);
         } else {
             Toast.makeText(context, "URL invalida", Toast.LENGTH_SHORT).show();
+            holder.bookIV.setImageResource(R.drawable.gatolibromiau);
         }
 
         setAnimation(holder.itemView, position);

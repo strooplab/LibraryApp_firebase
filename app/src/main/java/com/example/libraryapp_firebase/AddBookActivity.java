@@ -14,6 +14,7 @@
     import com.google.android.gms.tasks.OnCompleteListener;
     import com.google.android.gms.tasks.Task;
     import com.google.android.material.textfield.TextInputEditText;
+    import com.google.firebase.FirebaseApp;
     import com.google.firebase.auth.FirebaseAuth;
     import com.google.firebase.auth.FirebaseUser;
     import com.google.firebase.database.DataSnapshot;
@@ -28,7 +29,8 @@
         private Button addBookBtn;
         private ProgressBar loadingPB;
         private FirebaseDatabase firebaseDatabase;
-        private DatabaseReference databaseReference;
+
+        private DatabaseReference database;
         private String bookID, uid;
 
         @Override
@@ -43,14 +45,15 @@
             bookImgEdt = findViewById(R.id.idEdtBookImg);
             addBookBtn = findViewById(R.id.idBtnAddBook);
             loadingPB = findViewById(R.id.idPBLoading);
+            FirebaseApp.initializeApp(this);
             firebaseDatabase = FirebaseDatabase.getInstance();
 
             FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
             if (user != null) {
                 uid = user.getUid();
 
-                DatabaseReference userBooksRef = firebaseDatabase.getReference("Users").child(uid).child("Books");
-                userBooksRef.addValueEventListener(new ValueEventListener() {
+                database = firebaseDatabase.getReference("Users").child(uid).child("Books");
+                database.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     }
@@ -70,13 +73,19 @@
                     String bookURL = bookURLEdt.getText().toString();
                     String bookDesc = bookDescEdt.getText().toString();
                     String bookImg = bookImgEdt.getText().toString();
-                    if (TextUtils.isEmpty(bookImg)){
-                        Toast.makeText(AddBookActivity.this, "Sin enlace de imagen", Toast.LENGTH_SHORT).show();
-                    }else{
-                        bookID = bookName;
+
+                    bookID = bookName;
+                    if (TextUtils.isEmpty(bookURL)) {
+                        Toast.makeText(AddBookActivity.this, "Sin link al libro", Toast.LENGTH_SHORT).show();
+                        bookURL = null;
+                    }
+                    if (TextUtils.isEmpty(bookImg)) {
+                        Toast.makeText(AddBookActivity.this, "Sin link de  imágen", Toast.LENGTH_SHORT).show();
+                        bookImg = null;
+                    }
                         BookRVModal bookRVModal = new BookRVModal(bookName, bookAutor, bookPages, bookDesc, bookURL ,bookImg, bookID, uid);
 
-                        databaseReference.child(bookID).setValue(bookRVModal)
+                        database.child(bookID).setValue(bookRVModal)
                                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                                     @Override
                                     public void onComplete(@NonNull Task<Void> task) {
@@ -91,7 +100,7 @@
                                         }
                                     }
                                 });
-                }
+
             }
         });
     }

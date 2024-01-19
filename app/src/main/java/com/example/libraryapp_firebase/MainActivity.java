@@ -26,6 +26,7 @@ import android.widget.Toast;
 
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
@@ -39,6 +40,7 @@ import com.squareup.picasso.Picasso;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity implements BookRVAdapter.BookClickInterface {
 
@@ -62,10 +64,12 @@ public class MainActivity extends AppCompatActivity implements BookRVAdapter.Boo
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        FirebaseApp.initializeApp(this);
         bookRV = findViewById(R.id.idRVBooks);
         loadingPB = findViewById(R.id.idPBLoading);
         loadingPB.setVisibility(View.GONE);
         addFAB = findViewById(R.id.idAddFAB);
+
         firebaseDatabase = FirebaseDatabase.getInstance();
         fStorage = FirebaseStorage.getInstance();
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -180,10 +184,16 @@ public class MainActivity extends AppCompatActivity implements BookRVAdapter.Boo
         URLBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String getbook = bookRVModal.getBookURL();
                 Intent intent = new Intent(Intent.ACTION_VIEW);
                 if(intent!=null){
-                    intent.setData(Uri.parse(bookRVModal.getBookURL()));
-                    startActivity(intent);
+                    if (getbook != null){
+                        intent.setData(Uri.parse(getbook));
+                        startActivity(intent);
+                    }else{
+                        Toast.makeText(MainActivity.this, "Link no cargado, edite la URL", Toast.LENGTH_SHORT).show();
+                    }
+
                 }else{
                     Toast.makeText(MainActivity.this, "No Hay ningún link, carga un pdf en su lugar", Toast.LENGTH_SHORT).show();
                 }

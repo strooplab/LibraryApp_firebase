@@ -17,15 +17,6 @@
         android:theme="@style/Base.Theme.LibraryApp_firebase"
         tools:targetApi="31">
         <activity
-            android:name=".epubReader"
-            android:exported="false" />
-        <activity
-            android:name=".pdfActivity"
-            android:exported="false" />
-        <activity
-            android:name=".RegistrationActivity"
-            android:exported="true" />
-        <activity
             android:name=".LoginActivity"
             android:exported="true">
             <intent-filter>
@@ -34,6 +25,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".RegistrationActivity"
+            android:exported="true" />
+
+
+        <activity
+            android:name=".pdfActivity"
+            android:exported="false" />
         <activity
             android:name=".EditBookActivity"
             android:exported="false" />
@@ -42,7 +42,8 @@
             android:exported="false" />
         <activity
             android:name=".MainActivity"
-            android:exported="true" />
+            android:exported="false" />
     </application>
+
 
 </manifest>
